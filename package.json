@@ -1,0 +1,150 @@
+{
+  "name": "agent-orchestration-studio",
+  "displayName": "Agent Orchestration Studio",
+  "description": "Discover, visualize, and edit repository AI agents, skills, tools, permissions, and delegation flows.",
+  "version": "0.1.0",
+  "type": "module",
+  "publisher": "lukas-chylik",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Luko248/agent-builder-vs-code-extension.git"
+  },
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization"
+  ],
+  "keywords": [
+    "agents",
+    "ai",
+    "claude",
+    "copilot",
+    "codex",
+    "skills",
+    "orchestration"
+  ],
+  "main": "./dist/extension.cjs",
+  "activationEvents": [
+    "onCommand:agentOrchestration.openGraph",
+    "onView:agentOrchestration.explorer"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "agentOrchestration.openGraph",
+        "title": "Open Agent Graph",
+        "category": "Agent Orchestration"
+      },
+      {
+        "command": "agentOrchestration.refresh",
+        "title": "Refresh Agents & Skills",
+        "category": "Agent Orchestration",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "agentOrchestration.createAgent",
+        "title": "Create Agent",
+        "category": "Agent Orchestration",
+        "icon": "$(add)"
+      },
+      {
+        "command": "agentOrchestration.createSkill",
+        "title": "Create Skill",
+        "category": "Agent Orchestration"
+      },
+      {
+        "command": "agentOrchestration.openSource",
+        "title": "Open Source File",
+        "category": "Agent Orchestration"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "agentOrchestration",
+          "title": "Agent Orchestration",
+          "icon": "media/agent-orchestration.svg"
+        }
+      ]
+    },
+    "views": {
+      "agentOrchestration": [
+        {
+          "id": "agentOrchestration.explorer",
+          "name": "Repository Agents"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "agentOrchestration.explorer",
+        "contents": "No repository agents found.\n[Create an agent](command:agentOrchestration.createAgent) or add files under `.claude/agents`, `.github/agents`, or `.codex/agents`."
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "agentOrchestration.openGraph",
+          "when": "view == agentOrchestration.explorer",
+          "group": "navigation@1"
+        },
+        {
+          "command": "agentOrchestration.refresh",
+          "when": "view == agentOrchestration.explorer",
+          "group": "navigation@2"
+        },
+        {
+          "command": "agentOrchestration.createAgent",
+          "when": "view == agentOrchestration.explorer",
+          "group": "navigation@3"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "agentOrchestration.openSource",
+          "when": "view == agentOrchestration.explorer && viewItem == agentFile",
+          "group": "inline"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Agent Orchestration Studio",
+      "properties": {
+        "agentOrchestration.graphFile": {
+          "type": "string",
+          "default": ".agent-graph.json",
+          "description": "Workspace-relative file used for visual layout and orchestration edges."
+        },
+        "agentOrchestration.writePromptBlocks": {
+          "type": "boolean",
+          "default": true,
+          "description": "Write managed orchestration instructions into agent prompts when graph edges change."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "check": "tsc --noEmit",
+    "test": "tsx --test src/test/*.test.ts",
+    "test:integration": "npm run build && node scripts/run-integration.mjs",
+    "package": "npm run check && npm run test && npm run build && vsce package --no-dependencies",
+    "vscode:prepublish": "npm run build"
+  },
+  "dependencies": {
+    "smol-toml": "^1.4.2",
+    "yaml": "^2.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/vscode": "^1.95.0",
+    "@vscode/vsce": "^3.6.2",
+    "esbuild": "^0.25.9",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  }
+}

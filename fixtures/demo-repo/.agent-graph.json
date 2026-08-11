@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "nodes": {
+    "claude:.claude/agents/orchestrator.md": { "title": "Orchestrator", "color": "#4f8cff", "position": { "x": 90, "y": 120 }, "userInvokable": true, "autoInvokable": true },
+    "claude:.claude/agents/tester.md": { "title": "Test Runner", "color": "#38a169", "position": { "x": 500, "y": 70 }, "userInvokable": true, "autoInvokable": true },
+    "github:.github/agents/security-reviewer.agent.md": { "title": "Security Reviewer", "color": "#7C5CFC", "position": { "x": 500, "y": 320 }, "userInvokable": true, "autoInvokable": true },
+    "codex:.codex/agents/docs_researcher.toml": { "title": "Docs Researcher", "color": "#16A394", "position": { "x": 900, "y": 180 }, "userInvokable": true, "autoInvokable": true }
+  },
+  "edges": [
+    { "id": "edge-1", "source": "claude:.claude/agents/orchestrator.md", "target": "claude:.claude/agents/tester.md", "label": "the implementation needs verification", "style": "solid" },
+    { "id": "edge-2", "source": "claude:.claude/agents/orchestrator.md", "target": "github:.github/agents/security-reviewer.agent.md", "label": "security-sensitive code changed", "style": "dashed" },
+    { "id": "edge-3", "source": "github:.github/agents/security-reviewer.agent.md", "target": "codex:.codex/agents/docs_researcher.toml", "label": "a security claim depends on current API behavior", "style": "solid" }
+  ]
+}
